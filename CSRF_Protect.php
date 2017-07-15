@@ -67,10 +67,24 @@ class CSRF_Protect {
 	 */
 	public function verifyRequest()
 	{
-		if (!$this->isTokenValid($_POST[$this->namespace]))
+		if (!$this->isValidRequest())
 		{
 			die("CSRF validation failed.");
 		}
+	}
+
+	/**
+	 * Verifies whether the post token was set, and return true or false
+	 */
+	public function isValidRequest()
+	{
+		if(!isset($_POST[$this->namespace]))
+			return false;
+		
+		if (!$this->isTokenValid($_POST[$this->namespace]))
+			return false;
+		
+		return true;
 	}
 	
 	/**
